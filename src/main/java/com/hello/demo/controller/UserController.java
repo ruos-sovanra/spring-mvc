@@ -27,5 +27,16 @@ public class UserController {
         return ResponseEntity.ok("User created successfully");
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id){
+        return ResponseEntity.ok(userService.findUserById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserRequest userRequest){
+        userService.updateUser(id, userRequest);
+        return ResponseEntity.ok("User updated successfully");
+    }
+
 
 }

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 @Repository
 public class UserRepository {
 
@@ -18,41 +17,32 @@ public class UserRepository {
             )
     );
 
-    private Long userIdCounter = 1L;
+    private Long userIdCounter = 3L; // Start from a value greater than the highest existing user ID
 
     public List<User> findAll() {
-        System.out.println("User data"+users);
+        System.out.println("User data" + users);
         return users;
     }
-
 
     public Optional<User> findById(Long id) {
         return users.stream().filter(user -> user.getId().equals(id)).findFirst();
     }
 
-    public User save (User user) {
+    public User save(User user) {
+        System.out.println("User data" + user);
 
-        System.out.println("User data"+user);
-
-        if(user.getId() == null){
+        if (user.getId() == null) {
             user.setId(userIdCounter++);
-            user.setName(user.getName());
-            user.setEmail(user.getEmail());
-            user.setPassword(user.getPassword());
-        }else {
+            users.add(user); // Add new user to the list
+        } else {
             users.removeIf(existingUser -> existingUser.getId().equals(user.getId()));
             users.add(user);
         }
 
         return user;
-
     }
 
     public void deleteById(Long id) {
         users.removeIf(user -> user.getId().equals(id));
     }
-
-
-
-
 }
